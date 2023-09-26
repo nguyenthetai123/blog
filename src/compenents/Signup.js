@@ -1,7 +1,7 @@
 import {  useState } from 'react'
 import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,Link } from 'react-router-dom'
 import {register} from '../Slices/userSlice'
 
 
@@ -154,9 +154,9 @@ export default function Signup() {
   
             <p className="mt-10 text-center text-sm text-gray-500">
               Not a member?{' '}
-              <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+              <Link href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                 Start a 14 day free trial
-              </a>
+              </Link>
             </p>
           </div>
         </div>

@@ -29,7 +29,7 @@ export const active = createAsyncThunk(
             }
         };
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/users/activation/`, {uid, token}, config);
-        if (res.status === 201) {
+        if (res.status === 204) {
             return res.data
         }else{
             alert('active fail')
@@ -63,13 +63,13 @@ const userSlice= createSlice({
             state.isAuthenticated=true
             state.loading= true
         })
-        .addCase(register.rejected,(state,action)=>{
-            state.access=localStorage.removeItem('access')
-            state.refresh=localStorage.removeItem('refresh')
-            state.user=null
-            state.isAuthenticated=false
-            state.loading= false
-        })
+        // .addCase(register.rejected,(state,action)=>{
+        //     state.access=localStorage.removeItem('access')
+        //     state.refresh=localStorage.removeItem('refresh')
+        //     state.user=null
+        //     state.isAuthenticated=false
+        //     state.loading= false
+        // })
         .addCase(active.pending,(state)=>{
             state.loading= false
         })

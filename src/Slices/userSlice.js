@@ -20,6 +20,7 @@ import { createSlice,createAsyncThunk } from "@reduxjs/toolkit"
       
     }
 )
+//activate email
 export const active = createAsyncThunk(
     'user/activate',
     async({uid, token})=>{
@@ -36,7 +37,41 @@ export const active = createAsyncThunk(
         }
     }
 )
+//get user infor
+export const load_user=createAsyncThunk(
+    'load_user',
+    async()=>{
+        if (localStorage.getItem('access')){
+            const config = {
+                headers: {
+                    'Authorization': `JWT ${localStorage.getItem('access')}`,
+                    'Accept': 'application/json'
+                }
+            };
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/me/`, config);
+            if(res.status===200){
+                return res.data
+            }else{
+                return res.data.error
+            }
+        }
+    }
+)
+export const login=createAsyncThunk(
+    'login',
+    async({email,password})=>{
+        const config = {
+            headers: {
+                "Content-type": "application/json"
+            }
+        }
+        const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/jwt/create/`, {email,password}, config);
+        if (res.status === 200){
+            return res.data
+        }
+    }
 
+)
 
 
 const initialState={
@@ -63,13 +98,13 @@ const userSlice= createSlice({
             state.isAuthenticated=true
             state.loading= true
         })
-        // .addCase(register.rejected,(state,action)=>{
-        //     state.access=localStorage.removeItem('access')
-        //     state.refresh=localStorage.removeItem('refresh')
-        //     state.user=null
-        //     state.isAuthenticated=false
-        //     state.loading= false
-        // })
+        .addCase(register.rejected,(state,action)=>{
+            state.access=localStorage.removeItem('access')
+            state.refresh=localStorage.removeItem('refresh')
+            state.user=null
+            state.isAuthenticated=false
+            state.loading= false
+        })
         .addCase(active.pending,(state)=>{
             state.loading= false
         })
@@ -80,6 +115,40 @@ const userSlice= createSlice({
         })
         .addCase(active.rejected,(state,action)=>{
             state.loading= false
+        })
+        .addCase(load_user.pending,(state)=>{
+            state.isAuthenticated=null
+            state.user=null
+            state.loading=false
+        })
+        .addCase(load_user.fulfilled,(state,action)=>{
+            state.isAuthenticated=true
+            state.user=action.payload
+            state.loading=true
+        })
+        .addCase(load_user.rejected,(state,action)=>{
+            state.isAuthenticated=null
+            state.user=null
+            state.loading=false
+        })
+        .addCase(login.pending,(state)=>{
+            state.loading=false
+            state.access=null
+            state.refresh=null
+            state.isAuthenticated=null
+        })
+        .addCase(login.fulfilled,(state,action)=>{
+            state.isAuthenticated=true
+            state.loading=true
+            state.user=action.payload
+            state.access= localStorage.getItem('access',action.payload.access)
+            state.refresh=localStorage.getItem('refresh',action.payload.refresh)
+        })
+        .addCase(login.rejected,(state,action)=>{
+            state.loading=false
+            state.access=null
+            state.refresh=null
+            state.isAuthenticated=null
         })
     }
 })

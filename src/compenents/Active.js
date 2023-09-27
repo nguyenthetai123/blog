@@ -1,4 +1,4 @@
-import React from 'react'
+import React  from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux' 
 import { toast } from 'react-toastify'
@@ -23,7 +23,7 @@ const Active = () => {
         if(loading){
            navigate('/')
         }
-
+   
   return (
     <div>
          <div className='bg-sky-500/75'>

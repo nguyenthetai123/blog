@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate,Link } from 'react-router-dom'
 import {register} from '../Slices/userSlice'
-
+import Layout from '../layouts/Layout'
 
 export default function Signup() {
     const [formData, setFormData] = useState({
@@ -47,7 +47,7 @@ export default function Signup() {
 
     return (
       <>
-       
+       <Layout>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
@@ -160,6 +160,7 @@ export default function Signup() {
             </p>
           </div>
         </div>
+        </Layout>
       </>
     )
   }

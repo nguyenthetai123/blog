@@ -124,12 +124,15 @@ const userSlice= createSlice({
         .addCase(load_user.fulfilled,(state,action)=>{
             state.isAuthenticated=true
             state.user=action.payload
-            state.loading=true
+          
         })
         .addCase(load_user.rejected,(state,action)=>{
-            state.isAuthenticated=null
+           
             state.user=null
-            state.loading=false
+            state.access=null
+            state.refresh=null
+            state.isAuthenticated=null
+          
         })
         .addCase(login.pending,(state)=>{
             state.loading=false
@@ -138,11 +141,14 @@ const userSlice= createSlice({
             state.isAuthenticated=null
         })
         .addCase(login.fulfilled,(state,action)=>{
-            state.isAuthenticated=true
-            state.loading=true
-            state.user=action.payload
-            state.access= localStorage.getItem('access',action.payload.access)
-            state.refresh=localStorage.getItem('refresh',action.payload.refresh)
+            return{
+               
+                isAuthenticated:true,
+                loading:true,
+                user:action.payload,
+                
+            }
+           
         })
         .addCase(login.rejected,(state,action)=>{
             state.loading=false

@@ -3,7 +3,11 @@ import { Link ,useNavigate} from 'react-router-dom'
 import { login,load_user } from '../Slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import Layout from '../layouts/Layout'
 const Login = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const [formData, setFormData] = useState({
     "email": "",
     "password": "",
@@ -12,8 +16,7 @@ const Login = () => {
     email,
     password
   } = formData;
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  
   const {isAuthenticated,user}=useSelector((state)=>state.user) 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -29,21 +32,21 @@ const handleSubmit = (e) => {
       email,
       password,
   }
+
   dispatch(login(userData))
 }
-useEffect(()=>{
-  if(isAuthenticated||user){
-    navigate("/")
-    toast.success("login success")
-  }else{
-    toast.success("login fail")
-    toast.error("please check your account")
-  }
-  dispatch(load_user())
-},[isAuthenticated,user,navigate,dispatch])
+
+  useEffect(()=>{
+    if(isAuthenticated||user){
+      navigate('/')
+      
+      toast.success('login success')
+     }
+ 
+  },[isAuthenticated,user,navigate,dispatch])
 
   return (
-   
+   <Layout>
     <div class="flex items-center justify-center">
             <div class="w-full max-w-md">
               <form   class="bg-white shadow-lg rounded px-12 pt-6 pb-8 mb-4">
@@ -104,6 +107,7 @@ useEffect(()=>{
              
             </div>
           </div>
+    </Layout>
   )
 }
 

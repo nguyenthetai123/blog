@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'corsheaders',
     "djoser",
@@ -45,9 +46,19 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'apps.Account',
     'drf_yasg',
-    'apps.blog'
+    'apps.blog',
+     'ckeditor',
+    'ckeditor_uploader',
 ]
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'autoParagraph': False
+    }
+}
+CKEDITOR_UPLOAD_PATH = "/media/"
 
+CORS_ALLOW_ALL_ORIGINS = True
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',

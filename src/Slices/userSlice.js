@@ -72,7 +72,16 @@ export const login=createAsyncThunk(
     }
 
 )
-
+const logout= createAsyncThunk(
+    'logout',
+    async()=>{
+        localStorage.removeItem('user')
+        localStorage.removeItem('access')
+        localStorage.removeItem('refresh')
+           
+        
+    }
+)
 
 const initialState={
     access: localStorage.getItem('access'),
@@ -154,6 +163,12 @@ const userSlice= createSlice({
             state.loading=false
             state.access=null
             state.refresh=null
+            state.isAuthenticated=null
+        })
+        .addCase(logout.fulfilled, (state) => {
+            state.user = null
+            state.access=null
+            state.access=null
             state.isAuthenticated=null
         })
     }
